@@ -17,7 +17,8 @@ launchui ()(
 	wait
 )
 
-#sleep 60
+echo 'Waiting for initial UI...'
+sleep 60
 
 exposeui 0 1        &
 launchui 2 840x476  &
