@@ -1,0 +1,27 @@
+#!/bin/sh
+
+exposeui (){
+	N="$1"; shift
+	M="$1"; shift
+
+	echo socat TCP-LISTEN:590$M,reuseaddr,fork TCP-CONNECT:127.0.0.1:590$N
+}
+
+launchui ()(
+	N="$1"; shift
+	SIZE="$1"; shift
+
+	echo /opt/victronenergy/gui/gui -nomouse -display VNC:refreshrate=60:depth=32:size=840x476:$N &
+	exposeui "$N" "$(($N + 1))"                                                                   &
+
+	wait
+)
+
+#sleep 60
+
+exposeui 0 1        &
+launchui 2 840x476  &
+launchui 4 840x476  &
+launchui 6 1270x720 &
+
+wait
