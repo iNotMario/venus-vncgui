@@ -8,14 +8,14 @@ exposeui (){
 		socat TCP-LISTEN:590$M,reuseaddr,fork TCP-CONNECT:127.0.0.1:590$N
 	done
 }
-launchui ()(
+launchui (){
 	N="$1"; shift
 	SIZE="$1"; shift
 
 	while true; do
 		/opt/victronenergy/gui/gui -nomouse -display VNC:refreshrate=60:depth=32:size=840x476:$N
 	done
-)
+}
 
 ui ()(
 	N="$1"; shift
