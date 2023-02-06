@@ -13,7 +13,7 @@ launchui (){
 	SIZE="$1"; shift
 
 	while true; do
-		/opt/victronenergy/gui/gui -nomouse -display VNC:refreshrate=60:depth=32:size=840x476:$N
+		/opt/victronenergy/gui/gui -nomouse -display VNC:refreshrate=60:depth=32:size=$SIZE:$N
 	done
 }
 
