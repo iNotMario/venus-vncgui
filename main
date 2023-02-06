@@ -1,11 +1,22 @@
 #!/bin/sh
+preface (){
+	N="$1"; shift
+	E="$1"; shift
+	F=$((10**$E))
+
+	M=$(($N+$F))
+	O="${M:1}"
+
+	echo "$O"
+}
 
 exposeui (){
 	N="$1"; shift
 	M="$1"; shift
 
 	while true; do
-		socat TCP-LISTEN:590$M,reuseaddr,fork TCP-CONNECT:127.0.0.1:590$N
+		socat TCP-LISTEN:59$(preface $M 2),reuseaddr,fork TCP-CONNECT:127.0.0.1:59$(preface $N 2)
+		sleep 60
 	done
 }
 launchui (){
@@ -14,6 +25,7 @@ launchui (){
 
 	while true; do
 		/opt/victronenergy/gui/gui -nomouse -display VNC:refreshrate=60:depth=32:size=$SIZE:$N
+		sleep 60
 	done
 }
 
@@ -22,7 +34,7 @@ ui ()(
 	SIZE="$1"; shift
 
 	launchui "$N" "$SIZE"       &
-	exposeui "$N" "$(($N + 1))" &
+	exposeui "$N" "$(($N + 10))" &
 
 	wait
 )
@@ -30,9 +42,9 @@ ui ()(
 echo 'Waiting for initial UI...'
 sleep 60
 
-exposeui 0 1  &
+exposeui 0 10 &
+ui 1 840x476  &
 ui 2 840x476  &
-ui 4 840x476  &
-ui 6 1270x720 &
+ui 3 1270x720 &
 
 wait
