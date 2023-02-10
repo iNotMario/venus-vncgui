@@ -45,6 +45,6 @@ sleep 60
 exposeui 0 10 &
 ui 1 840x476  &
 ui 2 840x476  &
-ui 3 1270x720 &
+ui 3 1280x800 &
 
 wait
